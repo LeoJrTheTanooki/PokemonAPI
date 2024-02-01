@@ -62,16 +62,25 @@ async function PokemonCall(pokemonParam) {
 
   pokemonArt.src = pokemonMain.sprites.other["official-artwork"].front_default;
   pokemonArt.alt = pokemon;
+  if (getLocalStorage().includes(pokemon)) {
+    favoriteBtn.textContent = "Favorited";
+  } else if (!getLocalStorage().includes(pokemon)) {
+    favoriteBtn.textContent = "Add To Favorites";
+  }
 
   pokemonArt.addEventListener("click", async () => {
     if (!shiny) {
       pokemonArt.src =
-        pokemonMain.sprites.other["official-artwork"].front_shiny + "?t=" + new Date().getTime();
+        pokemonMain.sprites.other["official-artwork"].front_shiny +
+        "?t=" +
+        new Date().getTime();
       pokemonArt.alt = "shiny " + pokemon;
       shiny = true;
     } else {
       pokemonArt.src =
-        pokemonMain.sprites.other["official-artwork"].front_default + "?t=" + new Date().getTime();
+        pokemonMain.sprites.other["official-artwork"].front_default +
+        "?t=" +
+        new Date().getTime();
       pokemonArt.alt = pokemon;
       shiny = false;
     }
@@ -161,13 +170,20 @@ function JsonIterator(
 pokemonInput.forEach((input) => {
   input.addEventListener("keydown", async (event) => {
     if (event.key === "Enter") {
-      PokemonCall(event.target.value);
+      PokemonCall(event.target.value.toLowerCase().replace(new RegExp(" ", "gi"), " ")
+      );
     }
   });
 });
 
 favoriteBtn.addEventListener("click", () => {
-  saveToLocalStorage(pokemon);
+  if (getLocalStorage().includes(pokemon)) {
+    removeFromLocalStorage();
+    favoriteBtn.textContent = "Add To Favorites";
+  } else if (!getLocalStorage().includes(pokemon)) {
+    saveToLocalStorage(pokemon);
+    favoriteBtn.textContent = "Favorited";
+  }
 });
 
 getFavoritesBtn.addEventListener("click", async () => {
@@ -193,13 +209,13 @@ getFavoritesBtn.addEventListener("click", async () => {
 
     // Setting its text content to pokeName
     buttonOne.append(img);
-    buttonOne.append(pokeName);
+    buttonOne.append(Capitalizer(pokeName));
     p.append(buttonOne);
 
     // className replaces all classes with all new classes
     p.className = "text-lg font-medium text-gray-900 dark:text-white";
     buttonOne.addEventListener("click", () => {
-      PokemonCall(p.textContent.slice(0, -1));
+      PokemonCall(p.textContent.toLowerCase().slice(0, -1));
     });
 
     let button = document.createElement("button");

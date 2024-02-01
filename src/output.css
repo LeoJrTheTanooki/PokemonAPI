@@ -1358,6 +1358,14 @@ input:checked + .toggle-bg {
   height: 14rem;
 }
 
+.h-24 {
+  height: 6rem;
+}
+
+.h-auto {
+  height: auto;
+}
+
 .max-h-20 {
   max-height: 5rem;
 }
