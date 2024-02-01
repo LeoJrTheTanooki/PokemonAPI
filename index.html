@@ -160,11 +160,11 @@
     </nav>
 
     <div
-      class="flex justify-evenly items-center lg:items-start mt-5 flex-col lg:flex-row"
+      class="grid grid-cols-1 lg:grid-cols-2 justify-items-center content-center gap-4 place my-5"
       style="border: solid blue"
     >
       <div
-        class="container bg-white w-5/6 lg:w-2/5 mb-5"
+        class="container bg-white w-5/6 mb-5 h-full"
         style="border: solid magenta"
       >
         <div class="bg-neutral-300">
@@ -183,7 +183,7 @@
         </div>
       </div>
       <div
-        class="container w-5/6 lg:w-2/5 mb-5 self-stretch"
+        class="container w-5/6 self-stretch"
         style="border: solid magenta"
       >
         <div class="bg-white">
@@ -196,13 +196,13 @@
         <div class="bg-white">
           <p>Evolutions: <span id="pokemonEvolutions"></span></p>
         </div>
-        <div class="bg-neutral-300 overflow-scroll max-h-full">
+        <div class="bg-neutral-300 overflow-y-auto max-h-full">
           <p>Area: <span id="pokemonArea"></span></p>
         </div>
         <div class="bg-white">
           <p>Abilities: <span id="pokemonAbilities"></span></p>
         </div>
-        <div class="bg-neutral-300 overflow-scroll max-h-full">
+        <div class="bg-neutral-300 overflow-y-auto max-h-full">
           <p>Moves: <span id="pokemonMoves"></span></p>
         </div>
       </div>
