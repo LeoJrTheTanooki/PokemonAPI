@@ -15,6 +15,7 @@ let pokemonInput = Array.from(document.getElementsByClassName("pokemonInput"));
 let pokemonArt = document.getElementById("pokemonArt");
 let pokemonDexEntry = document.getElementById("pokemonDexEntry");
 let favoriteBtn = document.getElementById("favoriteBtn");
+let starBtn = document.getElementById("starBtn");
 let getFavoritesBtn = document.getElementById("getFavoritesBtn");
 let getFavoritesDiv = document.getElementById("getFavoritesDiv");
 let pokemon = "";
@@ -63,9 +64,11 @@ async function PokemonCall(pokemonParam) {
   pokemonArt.src = pokemonMain.sprites.other["official-artwork"].front_default;
   pokemonArt.alt = pokemon;
   if (getLocalStorage().includes(pokemon)) {
-    favoriteBtn.textContent = "Favorited";
+    // favoriteBtn.textContent = "Favorited";
+    starBtn.src = "/assets/Favorited.png";
   } else if (!getLocalStorage().includes(pokemon)) {
-    favoriteBtn.textContent = "Add To Favorites";
+    // favoriteBtn.textContent = "Add To Favorites";
+    starBtn.src = "/assets/Unfavorited.png";
   }
 
   pokemonArt.addEventListener("click", async () => {
@@ -170,7 +173,8 @@ function JsonIterator(
 pokemonInput.forEach((input) => {
   input.addEventListener("keydown", async (event) => {
     if (event.key === "Enter") {
-      PokemonCall(event.target.value.toLowerCase().replace(new RegExp(" ", "gi"), " ")
+      PokemonCall(
+        event.target.value.toLowerCase().replace(new RegExp(" ", "gi"), " ")
       );
     }
   });
@@ -179,10 +183,12 @@ pokemonInput.forEach((input) => {
 favoriteBtn.addEventListener("click", () => {
   if (getLocalStorage().includes(pokemon)) {
     removeFromLocalStorage();
-    favoriteBtn.textContent = "Add To Favorites";
+    // favoriteBtn.textContent = "Add To Favorites";
+    starBtn.src = "/assets/Unfavorited.png";
   } else if (!getLocalStorage().includes(pokemon)) {
     saveToLocalStorage(pokemon);
-    favoriteBtn.textContent = "Favorited";
+    // favoriteBtn.textContent = "Favorited";
+    starBtn.src = "/assets/Favorited.png";
   }
 });
 
