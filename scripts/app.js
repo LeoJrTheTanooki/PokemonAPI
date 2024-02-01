@@ -45,11 +45,6 @@ async function PokemonCall(pokemonParam) {
   let evolutionNest = await PokeApi(pokemonSpecies.evolution_chain.url);
   let pokemonEncounters = await PokeApi(pokemonMain.location_area_encounters);
 
-  // console.log(pokemonMain);
-  // console.log(pokemonSpecies);
-  // console.log(pokemonEncounters);
-  // console.log(evolutionNest);
-
   //   Required Elements
   pokemon = pokemonMain.name;
   pokemonName.textContent = Capitalizer(pokemon);
@@ -122,12 +117,6 @@ async function PokemonCall(pokemonParam) {
   } else {
     pokemonEvolutions.textContent = "N/A";
   }
-  // pokemonEvolutions.textContent += element.species.name
-  // pokemonEvolutions.textContent += " -> ";
-
-  // evolutionNest.chain.evolves_to.forEach(element => {
-  //   JsonIterator(pokemonEvolutions, element.evolves_to, "species.name", false)
-  // });
 }
 
 function Capitalizer(param) {
