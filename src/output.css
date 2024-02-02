@@ -1399,6 +1399,10 @@ input:checked + .toggle-bg {
   max-height: 16rem;
 }
 
+.max-h-32 {
+  max-height: 8rem;
+}
+
 .min-h-\[150px\] {
   min-height: 150px;
 }
