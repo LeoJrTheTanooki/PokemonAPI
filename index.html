@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link href="/src/output.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/styles/style.css" />
   </head>
   <body>
@@ -106,14 +109,33 @@
               class="pokemonInput block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Search..."
             />
-          </div><div class="relative hidden md:block mx-5">
-            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-              <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"></path>
+          </div>
+          <div class="relative hidden md:block mx-5">
+            <div
+              class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+            >
+              <svg
+                class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                ></path>
               </svg>
               <span class="sr-only">Search icon</span>
             </div>
-            <input type="text" class="pokemonInput block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search...">
+            <input
+              type="text"
+              class="pokemonInput block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Search..."
+            />
           </div>
           <ul
             class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 dark:border-gray-700 text-center"
@@ -142,52 +164,54 @@
       </div>
     </nav>
 
-    <div
-      class="grid grid-cols-1 lg:grid-cols-2 justify-items-center content-center gap-4 place my-5"
-    >
+    <div class="flex justify-center">
       <div
-        class="container bg-white w-5/6 mb-5 h-full"
+        class="grid grid-cols-1 lg:grid-cols-2 justify-items-center content-center gap-4 place my-5 w-5/6"
       >
-        <div class="bg-neutral-300 p-5">
-          <button id="favoriteBtn" class="block ml-auto">
-            <img id="starBtn" src="/assets/Unfavorited.png" alt="">
-          </button>
-          <img
-            id="pokemonArt"
-            src=""
-            alt="Pokemon"
-            class="text-center mx-auto"
-          />
+        <div class="container bg-white w-5/6 mb-5 h-full">
+          <div class="bg-neutral-300 p-5">
+            <button id="favoriteBtn" class="block ml-auto">
+              <img id="starBtn" src="/assets/Unfavorited.png" alt="" />
+            </button>
+            <img
+              id="pokemonArt"
+              src=""
+              alt="Pokemon"
+              class="text-center mx-auto"
+            />
+          </div>
+          <div>
+            <p id="pokemonDexEntry" class="font-bold p-5">Dex Entry</p>
+          </div>
         </div>
-        <div>
-          <p id="pokemonDexEntry" class="font-bold p-5">Dex Entry</p>
-        </div>
-      </div>
-      <div
-        class="container w-5/6 self-stretch"
-      >
-        <div class="bg-white p-5">
-          <p id="pokemonName" class="text-2xl"></p>
-          <p>#<span id="pokemonID"></span></p>
-        </div>
-        <div class="bg-neutral-300 p-5">
-          <p>Type(s): <span id="pokemonType"></span></p>
-        </div>
-        <div class="bg-white p-5">
-          <p>Evolutions: <span id="pokemonEvolutions"></span></p>
-        </div>
-        <div class="bg-neutral-300 overflow-y-auto max-h-96 p-5">
-          <p>Area: <span id="pokemonArea"></span></p>
-        </div>
-        <div class="bg-white p-5">
-          <p>Abilities: <span id="pokemonAbilities"></span></p>
-        </div>
-        <div class="bg-neutral-300 overflow-y-auto max-h-96 p-5">
-          <p>Moves: <span id="pokemonMoves"></span></p>
+        <div class="container w-5/6 self-stretch">
+          <div class="bg-white p-5">
+            <p id="pokemonName" class="text-2xl"></p>
+            <p>#<span id="pokemonID"></span></p>
+          </div>
+          <div class="bg-neutral-300 p-5">
+            <p>Type(s): <span id="pokemonType"></span></p>
+          </div>
+          <div class="bg-white p-5">
+            <p>Evolutions: <span id="pokemonEvolutions"></span></p>
+          </div>
+          <div class="bg-neutral-300 overflow-y-auto max-h-96 p-5">
+            <p>Area: <span id="pokemonArea"></span></p>
+          </div>
+          <div class="bg-white p-5">
+            <p>Abilities: <span id="pokemonAbilities"></span></p>
+          </div>
+          <div class="bg-neutral-300 overflow-y-auto max-h-96 p-5">
+            <p>Moves: <span id="pokemonMoves"></span></p>
+          </div>
         </div>
       </div>
     </div>
-    <p class="bg-white text-center">API provided by <a class="text-blue-600 underline" href="https://pokeapi.co/">PokeAPI</a></p>
+
+    <p class="bg-white text-center">
+      API provided by
+      <a class="text-blue-600 underline" href="https://pokeapi.co/">PokeAPI</a>
+    </p>
 
     <!-- drawer component -->
     <div
