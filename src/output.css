@@ -1957,6 +1957,10 @@ input:checked + .toggle-bg {
   color: rgb(163 163 163 / var(--tw-text-opacity));
 }
 
+.underline {
+  text-decoration-line: underline;
+}
+
 .opacity-0 {
   opacity: 0;
 }
