@@ -21,9 +21,14 @@ let getFavoritesDiv = document.getElementById("getFavoritesDiv");
 let pokemon = "";
 
 const PokeApi = async (apiLink) => {
-  const promise = await fetch(apiLink);
-  const data = await promise.json();
-  return data;
+  try {
+    const response = await fetch(apiLink);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 };
 
 async function PokemonCall(pokemonParam) {
@@ -34,88 +39,127 @@ async function PokemonCall(pokemonParam) {
   let pokemonMain = await PokeApi(
     "https://pokeapi.co/api/v2/pokemon/" + pokemonParam
   );
-  let pokemonSpecies = await PokeApi(pokemonMain.species.url);
-  let evolutionNest = await PokeApi(pokemonSpecies.evolution_chain.url);
-  let pokemonEncounters = await PokeApi(pokemonMain.location_area_encounters);
+  if (pokemonMain && pokemonMain.id <= 649) {
+    let pokemonSpecies = await PokeApi(pokemonMain.species.url);
+    let evolutionNest = await PokeApi(pokemonSpecies.evolution_chain.url);
+    let pokemonEncounters = await PokeApi(pokemonMain.location_area_encounters);
 
-  //   Required Elements
-  pokemon = pokemonMain.name;
-  pokemonName.textContent = Capitalizer(pokemon);
-  pokemonID.textContent = pokemonMain.id;
-  let enDexIndex = pokemonSpecies.flavor_text_entries.findIndex(
-    (object) => object.language.name === "en"
-  );
-  pokemonDexEntry.textContent = pokemonSpecies.flavor_text_entries[
-    enDexIndex
-  ].flavor_text.replace(new RegExp("\u000c", "gi"), " ");
+    // Testing Grounds
+    // console.log(pokemonMain)
+    // if(pokemonMain){
+    //   console.log("Called")
+    // } else {
+    //   console.log("Undefined")
+    // }
 
-  JsonIterator(pokemonType, pokemonMain.types, "type.name");
-  JsonIterator(pokemonAbilities, pokemonMain.abilities, "ability.name");
-  JsonIterator(pokemonMoves, pokemonMain.moves, "move.name");
-
-  pokemonArt.src = pokemonMain.sprites.other["official-artwork"].front_default;
-  pokemonArt.alt = pokemon;
-  if (getLocalStorage().includes(pokemon)) {
-    starBtn.src = "/assets/Favorited.png";
-  } else if (!getLocalStorage().includes(pokemon)) {
-    starBtn.src = "/assets/Unfavorited.png";
-  }
-
-  pokemonArt.addEventListener("click", async () => {
-    if (!shiny) {
-      pokemonArt.src =
-        pokemonMain.sprites.other["official-artwork"].front_shiny +
-        "?t=" +
-        new Date().getTime();
-      pokemonArt.alt = "shiny " + pokemon;
-      shiny = true;
-    } else {
-      pokemonArt.src =
-        pokemonMain.sprites.other["official-artwork"].front_default +
-        "?t=" +
-        new Date().getTime();
-      pokemonArt.alt = pokemon;
-      shiny = false;
+    // Required Elements
+    pokemon = pokemonMain.name;
+    console.log(pokemon);
+    switch (pokemon) {
+      case "mr-mime":
+        pokemonName.textContent = "Mr. Mime";
+        break;
+      case "keldeo-ordinary":
+        pokemonName.textContent = "Keldeo";
+        break;
+      default:
+        pokemonName.textContent = Capitalizer(pokemon);
+        break;
     }
-  });
-
-  // Optional Elements
-
-  if (pokemonEncounters.length > 0) {
-    pokemonArea.textContent = "";
-    pokemonEncounters.forEach(
-      (object) =>
-        (pokemonArea.textContent +=
-          Capitalizer(object.location_area.name.split("-").join(" ")) + ", ")
+    pokemonID.textContent = pokemonMain.id;
+    let enDexIndex = pokemonSpecies.flavor_text_entries.findIndex(
+      (object) => object.language.name === "en"
     );
-    pokemonArea.textContent = pokemonArea.textContent.slice(0, -2);
-  } else {
-    pokemonArea.textContent = "N/A";
-  }
+    pokemonDexEntry.textContent = pokemonSpecies.flavor_text_entries[
+      enDexIndex
+    ].flavor_text.replace(new RegExp("\u000c", "gi"), " ");
 
-  if (evolutionNest.chain.evolves_to.length > 0) {
-    pokemonEvolutions.textContent =
-      Capitalizer(evolutionNest.chain.species.name) + " -> ";
-    for (let i = 0; i < evolutionNest.chain.evolves_to.length; i++) {
-      pokemonEvolutions.textContent += Capitalizer(
-        evolutionNest.chain.evolves_to[i].species.name
-      );
-      if (evolutionNest.chain.evolves_to[i].evolves_to.length > 0) {
-        pokemonEvolutions.textContent += " -> ";
-        for (
-          let j = 0;
-          j < evolutionNest.chain.evolves_to[i].evolves_to.length;
-          j++
-        ) {
-          pokemonEvolutions.textContent += Capitalizer(
-            evolutionNest.chain.evolves_to[i].evolves_to[j].species.name
-          );
+    JsonIterator(pokemonType, pokemonMain.types, "type.name");
+    JsonIterator(pokemonAbilities, pokemonMain.abilities, "ability.name");
+    JsonIterator(pokemonMoves, pokemonMain.moves, "move.name");
+
+    // Image Loader
+    pokemonArt.src =
+      pokemonMain.sprites.other["official-artwork"].front_default;
+
+      pokemonArt.addEventListener("click", async () => {
+        if (!shiny) {
+          pokemonArt.src =
+            pokemonMain.sprites.other["official-artwork"].front_shiny +
+            "?t=" +
+            new Date().getTime();
+          pokemonArt.alt = "shiny " + pokemon;
+          shiny = true;
+        } else {
+          pokemonArt.src =
+            pokemonMain.sprites.other["official-artwork"].front_default +
+            "?t=" +
+            new Date().getTime();
+          pokemonArt.alt = pokemon;
+          shiny = false;
         }
+      });
+
+    
+    if (pokemonArt.alt !== "N/A") pokemonArt.alt = pokemon;
+    if (getLocalStorage().includes(pokemon)) {
+      starBtn.src = "/assets/Favorited.png";
+    } else if (!getLocalStorage().includes(pokemon)) {
+      starBtn.src = "/assets/Unfavorited.png";
+    }
+
+    // Optional Elements
+
+    if (pokemonEncounters.length > 0) {
+      pokemonArea.textContent = "";
+      pokemonEncounters.forEach(
+        (object) =>
+          (pokemonArea.textContent +=
+            Capitalizer(object.location_area.name.split("-").join(" ")) + ", ")
+      );
+      pokemonArea.textContent = pokemonArea.textContent.slice(0, -2);
+    } else {
+      pokemonArea.textContent = "N/A";
+    }
+
+    if (evolutionNest.chain.evolves_to.length > 0) {
+      pokemonEvolutions.textContent =
+        Capitalizer(evolutionNest.chain.species.name) + " -> ";
+      for (let i = 0; i < evolutionNest.chain.evolves_to.length; i++) {
+        pokemonEvolutions.textContent += Capitalizer(
+          evolutionNest.chain.evolves_to[i].species.name
+        );
+        if (evolutionNest.chain.evolves_to[i].evolves_to.length > 0) {
+          pokemonEvolutions.textContent += " -> ";
+          for (
+            let j = 0;
+            j < evolutionNest.chain.evolves_to[i].evolves_to.length;
+            j++
+          ) {
+            pokemonEvolutions.textContent += Capitalizer(
+              evolutionNest.chain.evolves_to[i].evolves_to[j].species.name
+            );
+          }
+        }
+        if (i !== evolutionNest.chain.evolves_to.length - 1)
+          pokemonEvolutions.textContent += " | ";
       }
-      if (i !== evolutionNest.chain.evolves_to.length - 1)
-        pokemonEvolutions.textContent += " | ";
+    } else {
+      pokemonEvolutions.textContent = "N/A";
     }
   } else {
+    console.log("error");
+    pokemon = "";
+    pokemonName.textContent = "Invalid Pokemon";
+    pokemonID.textContent = "0";
+    pokemonDexEntry.textContent = "N/A";
+    pokemonType.textContent = "N/A";
+    pokemonAbilities.textContent = "N/A";
+    pokemonMoves.textContent = "N/A";
+    pokemonArt.src = "/assets/UnknownPokemon.png";
+    pokemonArt.alt = "N/A";
+    starBtn.src = "/assets/Unfavorited.png";
+    pokemonArea.textContent = "N/A";
     pokemonEvolutions.textContent = "N/A";
   }
 }
@@ -162,20 +206,73 @@ function JsonIterator(
 pokemonInput.forEach((input) => {
   input.addEventListener("keydown", async (event) => {
     if (event.key === "Enter") {
+      let inputtedName = event.target.value;
+      switch (inputtedName) {
+        case "deoxys":
+          inputtedName = "386";
+          // 10001, 10002, 10003
+          break;
+        case "wormadam":
+          inputtedName = "413";
+          // 10004, 10005
+          break;
+        case "shaymin":
+          inputtedName = "492";
+          // 10006
+          break;
+        case "giratina":
+          inputtedName = "487";
+          // 10007
+          break;
+        case "rotom":
+          inputtedName = "479";
+          // 10008 - 10012
+          break;
+        case "basculin":
+          inputtedName = "550";
+          // 10016
+          break;
+        case "darmanitan":
+          inputtedName = "555";
+          // 10017
+          break;
+        case "meloetta":
+          inputtedName = "648";
+          // 10018
+          break;
+        case "tornadus":
+          inputtedName = "641";
+          // 10019
+          break;
+        case "thundurus":
+          inputtedName = "642";
+          // 10020
+          break;
+        case "landorus":
+          inputtedName = "645";
+          // 10021
+          break;
+        case "keldeo":
+          inputtedName = "647";
+          // 10024
+          break;
+      }
       PokemonCall(
-        event.target.value.toLowerCase().replace(new RegExp(" ", "gi"), "-")
+        inputtedName.toLowerCase().replace(new RegExp(" ", "gi"), "-")
       );
     }
   });
 });
 
 favoriteBtn.addEventListener("click", () => {
-  if (getLocalStorage().includes(pokemon)) {
-    removeFromLocalStorage();
-    starBtn.src = "/assets/Unfavorited.png";
-  } else if (!getLocalStorage().includes(pokemon)) {
-    saveToLocalStorage(pokemon);
-    starBtn.src = "/assets/Favorited.png";
+  if (pokemon) {
+    if (getLocalStorage().includes(pokemon)) {
+      removeFromLocalStorage();
+      starBtn.src = "/assets/Unfavorited.png";
+    } else if (!getLocalStorage().includes(pokemon)) {
+      saveToLocalStorage(pokemon);
+      starBtn.src = "/assets/Favorited.png";
+    }
   }
 });
 
